@@ -65,7 +65,7 @@ function buildCharts(sample) {
     var currSample = currSampleArray[0];
     console.log(currSample);
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
-    var otu_ids = currSample.otu_ids;
+    var otu_ids = currSample.otu_ids; 
     var otu_labels = currSample.otu_labels;
     var sample_values = currSample.sample_values;
 
