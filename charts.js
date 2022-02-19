@@ -63,33 +63,33 @@ function buildCharts(sample) {
     var currSampleArray = samplesArray.filter(sampleObj => sampleObj.id == sample);
     //  5. Create a variable that holds the first sample in the array.
     var currSample = currSampleArray[0];
-
+    console.log(currSample);
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
-    var otu_ids = currSample.map(samp => samp.otu_ids)
-    var otu_labels = currSample.map(samp => samp.otu_labels)
-    var sample_values = currSample.map(samp => samp.sample_values)
+    var otu_ids = currSample.otu_ids;
+    var otu_labels = currSample.otu_labels;
+    var sample_values = currSample.sample_values;
 
     // 7. Create the yticks for the bar chart.
     // Hint: Get the the top 10 otu_ids and map them in descending order  
     //  so the otu_ids with the most bacteria are last. 
-
-    var yticks = otu_ids.slice(0,11).sort((a,b) => b - a);
+    var topTenIds = otu_ids.slice(0,10);
+    var yticks = topTenIds.map(curr => "OTU " + curr).reverse();
+    console.log(sample_values);
 
     // 8. Create the trace for the bar chart. 
     var barData = [{
-      x: sample_values,
-      y: otu_labels,
-      type: "bar"
+      x: sample_values.slice(0,10).reverse(),
+      y: yticks,
+      text: otu_labels,
+      type: "bar",
+      orientation: "h"
     }
-      
     ];
     // 9. Create the layout for the bar chart. 
     var barLayout = {
-      title: "Belly Button Biodiversity Dashboard",
-      xaxis: "Testx",
-      yaxis: "Testy"
+      title: "Belly Button Biodiversity Dashboard"
     };
     // 10. Use Plotly to plot the data with the layout. 
-    Plotly.newPlot("bar-plot", barData, barLayout);
+    Plotly.newPlot("plot", barData, barLayout);
   });
 }
