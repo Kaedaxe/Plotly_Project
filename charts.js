@@ -78,7 +78,7 @@ function buildCharts(sample) {
     // 8. Create the trace for the bar chart. 
     var barData = [{
       x: sample_values,
-      y: yticks,
+      y: otu_labels,
       type: "bar"
     }
       
