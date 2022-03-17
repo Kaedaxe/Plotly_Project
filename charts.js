@@ -69,7 +69,7 @@ function buildCharts(sample) {
     // 2c. Create a variable that holds the first sample in the metadata array.
     var currMeta = currMetaArray[0];
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
-    var otu_ids = currSample.otu_ids;
+    var otu_ids = currSample.otu_ids; 
     var otu_labels = currSample.otu_labels;
     var sample_values = currSample.sample_values;
     // 3c. Create a variable that holds the washing frequency.
