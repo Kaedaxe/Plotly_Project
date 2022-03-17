@@ -61,14 +61,19 @@ function buildCharts(sample) {
     var samplesArray = data.samples;
     // 4. Create a variable that filters the samples for the object with the desired sample number.
     var currSampleArray = samplesArray.filter(sampleObj => sampleObj.id == sample);
+    // 1c. Create a variable that filters the metadata array for the object with the desired sample number.
+    var currMetaArray = data.metadata.filter(sampleObj => sampleObj.id == sample);
     //  5. Create a variable that holds the first sample in the array.
     var currSample = currSampleArray[0];
     console.log(currSample);
+    // 2c. Create a variable that holds the first sample in the metadata array.
+    var currMeta = currMetaArray[0];
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
     var otu_ids = currSample.otu_ids;
     var otu_labels = currSample.otu_labels;
     var sample_values = currSample.sample_values;
-
+    // 3c. Create a variable that holds the washing frequency.
+    var wfreq = parseInt(currMeta.wfreq);
     // 7. Create the yticks for the bar chart.
     // Hint: Get the the top 10 otu_ids and map them in descending order  
     //  so the otu_ids with the most bacteria are last. 
@@ -87,9 +92,65 @@ function buildCharts(sample) {
     ];
     // 9. Create the layout for the bar chart. 
     var barLayout = {
-      title: "Belly Button Biodiversity Dashboard"
+      title: "Top 10 Bacteria Cultures Found"
     };
     // 10. Use Plotly to plot the data with the layout. 
     Plotly.newPlot("plot", barData, barLayout);
+
+    // 1b. Create the trace for the bubble chart.
+    var bubbleData = [{
+      x: otu_ids,
+      y: sample_values,
+      text: otu_labels,
+      mode: "markers",
+      marker: {
+        color: otu_ids,
+        size: sample_values
+      }
+    }
+    ];
+    
+    // 2b. Create the layout for the bubble chart.
+    var bubbleLayout = {
+      title: "Bacteria Cultures Per Sample",
+      xaxis: {
+        title: "OTU ID"
+      },
+      hovermode: "closest"
+    };
+    
+    // 3b. Use Plotly to plot the data with the layout.
+    Plotly.newPlot("bubPlot", bubbleData, bubbleLayout); 
+
+    // 4c. Create the trace for the gauge chart.
+    var gaugeData = [{
+      domain: { x: [0,1], y: [0,1]},
+      value: wfreq,
+      title: { text: "Belly Button Washing Frequency"},
+      type: "indicator",
+      mode: "gauge+number",
+      gauge:{
+        axis: { range: [0, 10], tickwidth: 1, tickcolor: "black"},
+        steps: [
+          {range: [0,2], color: "red"},
+          {range: [2,4], color: "orange"},
+          {range: [4,6], color: "yellow"},
+          {range: [6,8], color: "limegreen"},
+          {range: [8,10], color: "green"}
+        ],
+        bar: { color: "black"}
+      }
+    }];
+    
+    // 5c. Create the layout for the gauge chart.
+    var gaugeLayout = { 
+      width: 500,
+      height: 400,
+      margin: { t:0, b:0}
+    };
+
+    // 6c. Use Plotly to plot the gauge data and layout.
+    Plotly.newPlot("gaugePlot", gaugeData, gaugeLayout);
+    
   });
 }
